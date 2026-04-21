@@ -260,24 +260,6 @@ if submit:
             f"โรงพยาบาลพรหมคีรี"
         )
 
-# ─── Sidebar: Records viewer ──────────────────────────────────────────────────
-with st.sidebar:
-    st.header("📁 ข้อมูลที่บันทึกแล้ว")
-    records = load_records()
-    if records:
-        df = pd.DataFrame(records)
-        display_cols = ["timestamp", "child_name", "sex", "age_total_months", "weight_kg", "result"]
-        available = [c for c in display_cols if c in df.columns]
-        df_show = df[available].copy()
-        df_show.columns = ["วันที่", "ชื่อเด็ก", "เพศ", "อายุ(เดือน)", "น้ำหนัก", "ผลประเมิน"][:len(available)]
-        st.dataframe(df_show, use_container_width=True, hide_index=True)
-
-        csv = df_show.to_csv(index=False).encode("utf-8-sig")
-        st.download_button("⬇️ ดาวน์โหลด CSV", csv,
-                           file_name="wcc_records.csv", mime="text/csv")
-    else:
-        st.info("ยังไม่มีข้อมูล")
-
 # ─── Footer ───────────────────────────────────────────────────────────────────
 st.divider()
 st.markdown(
