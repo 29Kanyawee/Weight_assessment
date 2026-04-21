@@ -99,16 +99,7 @@ if "show_result" not in st.session_state:
 # HEADER
 # ═══════════════════════════════════════════════════════════════════════════════
 st.title("📊 ประเมินน้ำหนักอายุ 0-72 เดือน")
-st.subheader("🏥 โรงพยาบาลพรหมคีรี 🏥")
-
-# Progress bar (2 steps)
-col_p1, col_p2 = st.columns(2)
-with col_p1:
-    st.markdown('<div style="height:6px;background:#1f77b4;border-radius:4px;"></div>', unsafe_allow_html=True)
-with col_p2:
-    bar2 = "#1f77b4" if st.session_state.show_result else "#2d2d2d"
-    st.markdown(f'<div style="height:6px;background:{bar2};border-radius:4px;"></div>', unsafe_allow_html=True)
-st.markdown("")
+st.title("🏥 โรงพยาบาลพรหมคีรี 🏥")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # FORM FIELDS
@@ -174,7 +165,7 @@ with col_w:
 
 # ── 7. ยืนยันและบันทึกข้อมูล ──────────────────────────────────────────────────
 st.header("📨 ยืนยันและบันทึกข้อมูล")
-submit = st.button("✅ เสร็จสิ้น", type="primary")
+submit = st.button("✅ เสร็จสิ้น", type="secondary")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SUBMIT LOGIC
@@ -292,11 +283,11 @@ st.divider()
 st.markdown(
     """
     <div style="text-align:center;line-height:2.2;color:#aaa;font-size:0.9em;">
-    ด้วยความปรารถนาดี<br>
+    <strong>ด้วยความปรารถนาดี<br>
     <strong>คลินิกสุขภาพเด็กดี (WCC) โรงพยาบาลพรหมคีรี</strong><br>
-    เปิดบริการทุกวันพุธ เวลา 08.30-12.00น.<br>
-    กลุ่มงานบริการด้านปฐมภูมิและองค์รวม<br>
-    โทรศัพท์ 075-396023 &nbsp;|&nbsp; Fax 075-396463
+    <strong>เปิดบริการทุกวันพุธ เวลา 08.30-12.00น.<br>
+    <strong>กลุ่มงานบริการด้านปฐมภูมิและองค์รวม<br>
+    <strong>โทรศัพท์ 075-396023 &nbsp;|&nbsp; Fax 075-396463
     </div>
     """,
     unsafe_allow_html=True,
