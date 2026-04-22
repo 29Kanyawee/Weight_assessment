@@ -253,6 +253,7 @@ if submit:
 
         if development != "ปกติ":
             st.error(f"⚠️ พัฒนาการ: {development} — ควรส่งพบแพทย์เพื่อประเมินเพิ่มเติม")
+            
 # ── Nutrition Recommendation Table ────────────────────────────────────
         st.divider()
         st.subheader("🍽️ ตารางคำแนะนำด้านโภชนาการ")
@@ -389,6 +390,7 @@ if submit:
                 ),
             },
         ]
+        
         # Build HTML table
         header_style = (
             "background:#1f4e79;color:white;font-weight:bold;"
@@ -396,12 +398,17 @@ if submit:
             "font-size:0.85em;"
         )
         cell_style  = "padding:8px 10px;border:1px solid #ddd;vertical-align:top;font-size:0.82em;white-space:pre-wrap;"
-        hi_bg       = f"background:{color}33;"
  
         cols_th = ["กลุ่ม", "เป้าหมาย", "คำแนะนำ", "หลักเลี่ยง / เสริม", "ตัวอย่างเมนูรายวัน", "การติดตาม"]
         th_html = "".join(f'<th style="{header_style}">{c}</th>' for c in cols_th)
  
         rows_html = ""
+        for row in NUTRITION_TABLE:
+            rows_html += "<tr>"
+            for col in cols_th:
+                rows_html += f'<td style="{cell_style}">{row.get(col, "")}</td>'
+            rows_html += "</tr>"
+
         table_html = f"""
         <div style="overflow-x:auto;margin-top:16px;">
           <table style="width:100%;border-collapse:collapse;border:1px solid #ccc;">
@@ -410,6 +417,8 @@ if submit:
           </table>
         </div>
         """
+        
+        st.markdown(table_html, unsafe_allow_html=True)
  
         st.caption(
             f"บันทึกโดย อสม.{vhv_name or '-'} | "
