@@ -402,15 +402,6 @@ if submit:
         th_html = "".join(f'<th style="{header_style}">{c}</th>' for c in cols_th)
  
         rows_html = ""
-        for row in NUTRITION_TABLE:
-            is_highlight = row["กลุ่ม"] in highlight_groups
-            row_bg = hi_bg if is_highlight else ""
-            cells = "".join(
-                f'<td style="{cell_style}{row_bg}">{row[k]}</td>'
-                for k in cols_th
-            )
-            rows_html += f"<tr>{cells}</tr>"
- 
         table_html = f"""
         <div style="overflow-x:auto;margin-top:16px;">
           <table style="width:100%;border-collapse:collapse;border:1px solid #ccc;">
