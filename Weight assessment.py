@@ -389,15 +389,6 @@ if submit:
                 ),
             },
         ]
- 
-        # Determine which row to highlight
-        highlight_map = {
-            "#FF4B4B": ["น้ำหนักน้อยมาก\n(< -3 SD)", "น้ำหนักมากมาก\n(> +3 SD)"],
-            "#FF914D": ["น้ำหนักน้อย\n(-3 SD ถึง -2 SD)", "น้ำหนักมาก\n(+2 SD ถึง +3 SD)"],
-            "#00C851": ["น้ำหนักปกติ\n(-2 SD ถึง +2 SD)"],
-        }
-        highlight_groups = highlight_map.get(color, [])
- 
         # Build HTML table
         header_style = (
             "background:#1f4e79;color:white;font-weight:bold;"
@@ -428,8 +419,6 @@ if submit:
           </table>
         </div>
         """
-        st.markdown(table_html, unsafe_allow_html=True)
-        st.caption("🔆 แถวที่ไฮไลต์ = กลุ่มที่ตรงกับผลการประเมินของเด็ก")
  
         st.caption(
             f"บันทึกโดย อสม.{vhv_name or '-'} | "
