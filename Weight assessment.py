@@ -1,7 +1,7 @@
 """
 ประเมินน้ำหนักอายุ 0-72 เดือน
 คลินิกสุขภาพเด็กดี (WCC) โรงพยาบาลพรหมคีรี
-URL: https://weight-for-age-version2.streamlit.app
+URL: https://weightassessment.streamlit.app
 """
 
 import streamlit as st
@@ -75,6 +75,12 @@ def save_record(record: dict):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(records, f, ensure_ascii=False, indent=2)
 
+def delete_record(index: int):
+    records = load_records()
+    if 0 <= index < len(records):
+        records.pop(index)
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(records, f, ensure_ascii=False, indent=2)
 # ─── Options ──────────────────────────────────────────────────────────────────
 MOO_OPTIONS = [f"ม.{i}" for i in range(1, 16)]
 
@@ -431,14 +437,20 @@ with st.sidebar:
     st.header("📁 ข้อมูลที่บันทึกแล้ว")
     records = load_records()
     if records:
-        df = pd.DataFrame(records)
-        display_cols = ["timestamp", "child_name", "sex", "age_total_months", "weight_kg", "result"]
-        available = [c for c in display_cols if c in df.columns]
-        df_show = df[available].copy()
-        df_show.columns = ["วันที่", "ชื่อเด็ก", "เพศ", "อายุ(เดือน)", "น้ำหนัก", "ผลประเมิน"][:len(available)]
-        st.dataframe(df_show, use_container_width=True, hide_index=True)
+        for i, rec in enumerate(records):
+            label = f"{rec.get('child_name','-')} | {rec.get('timestamp','')[:10]}"
+            with st.expander(label):
+                st.write(f"**เพศ:** {rec.get('sex','-')}")
+                st.write(f"**อายุ:** {rec.get('age_total_months','-')} เดือน")
+                st.write(f"**น้ำหนัก:** {rec.get('weight_kg','-')} กก.")
+                st.write(f"**ผล:** {rec.get('result','-')}")
 
-        csv = df_show.to_csv(index=False).encode("utf-8-sig")
+                if st.button(f"🗑️ ลบรายการนี้", key=f"del_{i}"):
+                    delete_record(i)
+                    st.rerun()
+
+        df = pd.DataFrame(records)
+        csv = df.to_csv(index=False).encode("utf-8-sig")
         st.download_button("⬇️ ดาวน์โหลด CSV", csv,
                            file_name="wcc_records.csv", mime="text/csv")
     else:
